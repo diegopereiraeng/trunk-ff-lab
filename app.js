@@ -1,5 +1,6 @@
 const http = require('http');
 const { Client } = require('@harnessio/ff-nodejs-server-sdk');
+const fs = require('fs');
 
 const hostname = '127.0.0.1';
 const port = 3000;
