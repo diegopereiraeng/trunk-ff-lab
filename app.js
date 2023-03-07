@@ -9,7 +9,7 @@ const server = http.createServer((req, res) => {
   
   // Add personalized greeting
   const name = req.url.split('/')[1];
-  const greeting = name ? `Hello, ${name}!\n` : 'Hello, World!\n';
+  const greeting = name ? `Hello, ${name}!\n` : 'Hello, Harness!\n';
   res.end(greeting);
 });
 
