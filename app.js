@@ -1,6 +1,8 @@
 const http = require('http');
 const { Client } = require('@harnessio/ff-nodejs-server-sdk');
+
 const fs = require('fs');
+
 
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -21,9 +23,19 @@ async function handleRequest(req, res) {
         'email': 'demo@harness.io'  
     }  
   };
-  
-  res.end('Hello, Harness!\n');
 
+
+  const value = await client.boolVariation('greeting', target, false);
+  console.log('Evaluation for flag test and target: ', value, target);
+  if (value) {
+    // Add personalized greeting
+    const name = req.url.split('/')[1];
+    const greeting = name ? `Hello, ${name}!\n` : 'Hello, Harness!\n';
+    res.end(greeting);
+  } else {
+    res.end('Hello, Harness!\n');
+  }
+  
   const value = await client.boolVariation('logging', target, false);
   console.log('Evaluation for flag test and target: ', value, target);
   if (value) {
