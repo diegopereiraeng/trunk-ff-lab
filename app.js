@@ -1,6 +1,9 @@
 const http = require('http');
 const { Client } = require('@harnessio/ff-nodejs-server-sdk');
 
+const fs = require('fs');
+
+
 const hostname = '127.0.0.1';
 const port = 3000;
 
@@ -21,6 +24,7 @@ async function handleRequest(req, res) {
     }  
   };
 
+
   const value = await client.boolVariation('greeting', target, false);
   console.log('Evaluation for flag test and target: ', value, target);
   if (value) {
@@ -30,6 +34,18 @@ async function handleRequest(req, res) {
     res.end(greeting);
   } else {
     res.end('Hello, Harness!\n');
+  }
+  
+  const value = await client.boolVariation('logging', target, false);
+  console.log('Evaluation for flag test and target: ', value, target);
+  if (value) {
+    // Log request details
+    const logMessage = `${new Date().toISOString()} ${req.method} ${req.url}\n`;
+    fs.appendFile('access.log', logMessage, (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
   }
 }
 
