@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@harnessio/ff-nodejs-server-sdk": "^1.2.11"
+  }
+}
