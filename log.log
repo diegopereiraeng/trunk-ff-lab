@@ -1,0 +1,18 @@
+curl --location --request GET 'http:/<elk_url>/<index>/_search' \
+--header 'Content-Type: application/json' \
+--data '{
+    "query": {
+        "bool": {
+            "filter": [
+                {
+                    "range": {
+                        "timestamp": {
+                            "gt": "1677766440000",
+                            "lte": "1678283162000"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}'
