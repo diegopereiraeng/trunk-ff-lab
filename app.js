@@ -21,7 +21,16 @@ async function handleRequest(req, res) {
   };
   
   
-  res.end('Hello, Harness!\n');
+  const value = await client.boolVariation('greeting', target, false);
+  console.log('Evaluation for flag test and target: ', value, target);
+  if (value) {
+    // Add personalized greeting
+    const name = req.url.split('/')[1];
+    const greeting = name ? `Hello, ${name}!\n` : 'Hello, Harness!\n';
+    res.end(greeting);
+  } else {
+    res.end('Hello, Harness!\n');
+  }
   
   const logging = await client.boolVariation('logging', target, false);
 
