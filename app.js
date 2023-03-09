@@ -1,13 +1,3 @@
-const http = require('http');
-const { Client } = require('@harnessio/ff-nodejs-server-sdk');
-
-const hostname = '127.0.0.1';
-const port = 3000;
-
-const client = new Client('c948ba62-a992-4efa-aacd-0aea7e845d6c', {
-  enableStream: true,
-});
-
 async function handleRequest(req, res) {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
@@ -44,6 +34,8 @@ async function handleRequest(req, res) {
     });
   }
   
+  // Introduce a change that will create a merge conflict
+  console.log('This is a change that will create a merge conflict.');
 }
 
 const server = http.createServer(handleRequest);
