@@ -20,7 +20,7 @@ async function handleRequest(req, res) {
     }
   };
   
-  const defaultMessage = "Hello, Harness!"
+  const defaultMessage = "Hello, Engineer!"
   
   const value = await client.boolVariation('greeting', target, false);
   console.log('Evaluation for flag test and target: ', value, target);
@@ -51,6 +51,3 @@ const server = http.createServer(handleRequest);
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
-
-// added a new line here
-console.log('Hello, Harness!');
