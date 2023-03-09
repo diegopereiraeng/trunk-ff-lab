@@ -26,7 +26,7 @@ async function handleRequest(req, res) {
   const logging = await client.boolVariation('logging', target, false);
 
   if (logging) {
-    const logMessage = `${new Date.toISOString()} ${req.method} ${req.url}\n`;
+    const logMessage = `${new Date.toISOString()} ${req.method} ${req.url} ${res.statusCode}\n`;
     fs.appendFile('access.log',logMessage, (err) => {
       if (err) {
         console.error(err);
