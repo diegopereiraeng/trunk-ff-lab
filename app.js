@@ -21,13 +21,14 @@ async function handleRequest(req, res) {
   };
   
   const defaultMessage = "Hello, Engineer!"
-  
+  const greeting = defaultMessage
+
   const value = await client.boolVariation('greeting', target, false);
   console.log('Evaluation for flag test and target: ', value, target);
   if (value) {
     // Add personalized greeting
     const name = req.url.split('/')[1];
-    const greeting = name ? `Hello, ${name}!\n` : `${defaultMessage}\n`;
+    greeting = name ? `Hello, ${name}!\n` : `${defaultMessage}\n`;
     res.end(greeting);
   } else {
     res.end(`${defaultMessage}\n`);
@@ -36,7 +37,7 @@ async function handleRequest(req, res) {
   const logging = await client.boolVariation('logging', target, false);
 
   if (logging) {
-    const logMessage = `${new Date.toISOString()} ${req.method} ${req.url}\n`;
+    const logMessage = `${new Date.toISOString()} ${req.method} ${req.url} ${greeting}\n`;
     fs.appendFile('access.log',logMessage, (err) => {
       if (err) {
         console.error(err);
