@@ -19,14 +19,26 @@ async function handleRequest(req, res) {
       'email': 'demo@harness.io'
     }
   };
-  
-  
-  res.end('Hello, Harness!\n');
+  const defaultMessage = "Hello Engineer!"
+  const greeting = await client.boolVariation('greeting', target, false);
+  if (greeting) {
+    // Add personalized greeting
+    const name = req.url.split('/')[1];
+    defaultMessage = name ? `Hello, ${name}!\n` : `'${defaultMessage}\n`;
+    res.end(defaultMessage);
+  } else {
+    res.end(`${defaultMessage}\n`);
+  }
   
   const logging = await client.boolVariation('logging', target, false);
 
   if (logging) {
-    const logMessage = `${new Date.toISOString()} ${req.method} ${req.url} ${res.statusCode}\n`;
+
+    const logMessage = `${new Date.toISOString()} ${req.method} ${req.url}\n`;
+    if (greeting) {
+      logMessage = `${new Date.toISOString()} ${req.method} ${req.url} ${defaultMessage}\n`;
+    }
+    
     fs.appendFile('access.log',logMessage, (err) => {
       if (err) {
         console.error(err);
