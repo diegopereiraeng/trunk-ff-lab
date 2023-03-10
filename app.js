@@ -19,17 +19,13 @@ async function handleRequest(req, res) {
       'email': 'demo@harness.io'
     }
   };
-  
-  const defaultMessage = "Hello, Engineer!"
-  const greeting = defaultMessage
-
-  const value = await client.boolVariation('greeting', target, false);
-  console.log('Evaluation for flag test and target: ', value, target);
-  if (value) {
+  const defaultMessage = "Hello Engineer!"
+  const greeting = await client.boolVariation('greeting', target, false);
+  if (greeting) {
     // Add personalized greeting
     const name = req.url.split('/')[1];
-    greeting = name ? `Hello, ${name}!\n` : `${defaultMessage}\n`;
-    res.end(greeting);
+    defaultMessage = name ? `Hello, ${name}!\n` : `'${defaultMessage}\n`;
+    res.end(defaultMessage);
   } else {
     res.end(`${defaultMessage}\n`);
   }
@@ -37,7 +33,11 @@ async function handleRequest(req, res) {
   const logging = await client.boolVariation('logging', target, false);
 
   if (logging) {
-    const logMessage = `${new Date.toISOString()} ${req.method} ${req.url} ${greeting}\n`;
+    const logMessage = `${new Date.toISOString()} ${req.method} ${req.url}\n`;
+    if (greeting) {
+      logMessage = `${new Date.toISOString()} ${req.method} ${req.url} ${defaultMessage}\n`;
+    }
+    
     fs.appendFile('access.log',logMessage, (err) => {
       if (err) {
         console.error(err);
