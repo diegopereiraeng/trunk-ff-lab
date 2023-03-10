@@ -33,6 +33,7 @@ async function handleRequest(req, res) {
   const logging = await client.boolVariation('logging', target, false);
 
   if (logging) {
+
     const logMessage = `${new Date.toISOString()} ${req.method} ${req.url}\n`;
     if (greeting) {
       logMessage = `${new Date.toISOString()} ${req.method} ${req.url} ${defaultMessage}\n`;
